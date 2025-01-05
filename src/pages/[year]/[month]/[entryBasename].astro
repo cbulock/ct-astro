@@ -1,0 +1,48 @@
+---
+import Layout from "@layouts/Layout.astro";
+import FormattedEntryContent from "@components/FormattedEntryContent.astro";
+import { entryData } from "@content/entryData";
+import { getCategoryById } from "@content/categoryData";
+
+export function getStaticPaths() {
+  return entryData.map(({ month, year, basename }) => ({
+    params: { month, year, entryBasename: basename },
+  }));
+}
+
+const { entryBasename } = Astro.params;
+
+// '.html' was appended to all URL's on the Movable Type and PHP iterations of this site
+const cleanEntryBasename = entryBasename.split(".")[0];
+
+const entry = entryData.find((e) => e.basename === cleanEntryBasename);
+
+const { title, text, createdDate, categoryId } = entry;
+
+const categoryData = getCategoryById(categoryId);
+
+const formatedDate = new Date(createdDate).toLocaleDateString("en-us", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const formatedTime = new Date(createdDate).toLocaleTimeString("en-us");
+---
+
+<Layout>
+  <h2>{title}</h2>
+  <p class="content"><FormattedEntryContent content={text} /></p>
+
+  {categoryData && (
+    <p class="category">
+        <span>Category:</span>
+        <a href={`/cat/${categoryData?.category_basename}`}>
+            {categoryData?.category_label}
+        </a>
+    </p>
+)}
+
+  <p class="posted-on">Posted on {formatedDate} at {formatedTime}</p>
+</Layout>

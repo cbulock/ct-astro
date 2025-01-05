@@ -1,0 +1,13 @@
+---
+const { entries } = Astro.props;
+---
+
+{
+  entries.map((entry) => (
+    <div>
+      <a href={`/${entry.year}/${entry.month}/${entry.basename}`}>
+        {entry.title}
+      </a>
+    </div>
+  ))
+}

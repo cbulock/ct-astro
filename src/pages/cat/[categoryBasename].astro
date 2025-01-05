@@ -1,0 +1,28 @@
+---
+import Layout from "@layouts/Layout.astro";
+import EntryList from "@components/EntryList.astro";
+import {
+  getCategoryBasenames,
+  getIdFromBasename,
+  getCategoryById,
+} from "@content/categoryData";
+
+import { getEntriesPerCategory } from "@content/entryData";
+
+export function getStaticPaths() {
+  return getCategoryBasenames().map((categoryBasename) => ({
+    params: { categoryBasename },
+  }));
+}
+
+const { categoryBasename } = Astro.params;
+
+const categoryId = getIdFromBasename(categoryBasename);
+const entriesPerCategory = getEntriesPerCategory(categoryId);
+const categoryData = getCategoryById(categoryId);
+---
+
+<Layout>
+  <h2>{categoryData?.category_label}</h2>
+  <EntryList entries={entriesPerCategory} />
+</Layout>

@@ -1,0 +1,10 @@
+---
+const { content } = Astro.props;
+---
+
+{
+  content.split("\n").map((item) => (
+        <Fragment set:html={item} />
+        <br />
+  ))
+}
