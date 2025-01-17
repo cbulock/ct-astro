@@ -60,7 +60,6 @@ const getEntryPath = (createdDate, basename) => {
 
 export {
 	entryData,
-	entryBasenames,
 	entryYears,
 	getEntryPath,
 	getEntriesPerYear,

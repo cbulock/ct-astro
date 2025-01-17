@@ -1,0 +1,15 @@
+---
+import { getEntriesPerSearch } from "@content/entryData";
+
+const handleSearch = (event) => {
+    console.log('event', event);
+  const query = event.target.value;
+  const result = getEntriesPerSearch(query);
+  console.log('result', result);
+};
+
+---
+
+<div class="search">
+  <input type="text" id="search" placeholder="Search" oninput={handleSearch} />
+</div>
